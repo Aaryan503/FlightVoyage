@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "71843071492",
+    "project_id": "flight-booking-crux",
+    "storage_bucket": "flight-booking-crux.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71843071492:android:982d321be4311294a15751",
+        "android_client_info": {
+          "package_name": "com.example.flightbooking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71843071492-ngb6o58e2qi9cerp28bnfgbemt1qq8p8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flightbooking",
+            "certificate_hash": "4b33d23ed81962216bb55f5d23b7d940df037f43"
+          }
+        },
+        {
+          "client_id": "71843071492-7cth3f26rpkvkq46vudq97tpucnhj1r6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN2ny208PgRF0prBUdtQT9qDBINhZMUfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71843071492-7cth3f26rpkvkq46vudq97tpucnhj1r6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
