@@ -34,7 +34,6 @@ class AirportMarker extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Temperature badge
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
@@ -68,8 +67,6 @@ class AirportMarker extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8),
-                    
-                    // Airport marker
                     Container(
                       width: 28,
                       height: 28,
@@ -96,8 +93,6 @@ class AirportMarker extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8),
-                    
-                    // Airport code
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(

@@ -163,7 +163,6 @@ class BookingService {
     await bookingRef.set(bookingSummary);
   }
 
-  /// Format time to HH:MM string
   static String _formatTime(DateTime dateTime) {
     return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
   }

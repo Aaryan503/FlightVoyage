@@ -27,8 +27,6 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
   @override
   void initState() {
     super.initState();
-    
-    // Initialize the booking with the selected airports
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(bookingProvider.notifier).setAirports(widget.departure, widget.destination);
     });
@@ -85,8 +83,6 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
     );
     if (picked != null) {
       ref.read(bookingProvider.notifier).setDepartureDate(picked);
-      
-      // Clear return date if it's before the new departure date
       final booking = ref.read(bookingProvider);
       if (booking.returnDate != null && booking.returnDate!.isBefore(picked)) {
         ref.read(bookingProvider.notifier).setReturnDate(null);
@@ -135,8 +131,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
       return;
     }
 
-    // Navigate to flight details screen
-    Navigator.of(context).pop(); // Close dialog first
+    Navigator.of(context).pop(); 
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => FlightDetailsScreen(),

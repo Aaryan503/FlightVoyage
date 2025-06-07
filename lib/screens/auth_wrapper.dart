@@ -9,7 +9,6 @@ class AuthWrapper extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authNotifierProvider);
     
-    // Show loading while auth state is being determined
     if (authState.isLoading && authState.user == null) {
       return const Scaffold(
         body: Center(
@@ -17,8 +16,6 @@ class AuthWrapper extends ConsumerWidget {
         ),
       );
     }
-    
-    // Navigate based on authentication status
     if (authState.isAuthenticated) {
       return AirportSelectionScreen();
     } else {

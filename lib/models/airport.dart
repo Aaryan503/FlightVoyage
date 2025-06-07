@@ -4,7 +4,7 @@ class Airport {
   final String city;
   final double latitude;
   final double longitude;
-  final double? temperature; // Make sure this property exists
+  final double? temperature; 
 
   const Airport({
     required this.code,
@@ -15,7 +15,7 @@ class Airport {
     this.temperature,
   });
 
-  // Add this copyWith method
+
   Airport copyWith({
     String? code,
     String? name,

@@ -8,7 +8,6 @@ class LoginScreen extends ConsumerWidget {
     final authState = ref.watch(authNotifierProvider);
     final authNotifier = ref.read(authNotifierProvider.notifier);
     
-    // Listen to auth errors and show snackbar
     ref.listen<String?>(authErrorProvider, (previous, next) {
       if (next != null) {
         ScaffoldMessenger.of(context).showSnackBar(

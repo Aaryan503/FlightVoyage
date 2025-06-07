@@ -46,6 +46,14 @@ class RouteCard extends StatelessWidget {
               _buildDivider(),
               SizedBox(height: 16),
               _buildDestinationSection(),
+              // Add spacing and move the button below
+              if (selectedDeparture != null && selectedDestination != null) ...[
+                SizedBox(height: 24),
+                Align(
+                  alignment: Alignment.center,
+                  child: _buildBookFlightButton(),
+                ),
+              ],
             ],
           ),
         ),
@@ -141,8 +149,9 @@ class RouteCard extends StatelessWidget {
             ],
           ),
         ),
-        if (selectedDeparture != null && selectedDestination != null)
-          _buildBookFlightButton(),
+        // Remove the button from here
+        // if (selectedDeparture != null && selectedDestination != null)
+        //   _buildBookFlightButton(),
       ],
     );
   }

@@ -5,7 +5,7 @@ class Seat {
   final bool isOccupied;
   final bool isSelected;
   final double price;
-  final bool isDisabled; // For disabled passengers
+  final bool isDisabled;
   final SeatType type;
 
   const Seat({

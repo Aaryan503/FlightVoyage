@@ -88,16 +88,12 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
 
     setState(() {
       if (selectedSeatIds.contains(seatId)) {
-        // Deselect the seat
         selectedSeatIds.remove(seatId);
         SeatSelectionLogic.updateSeatSelection(seatMap, seatId, false);
       } else {
-        // Select the seat
         selectedSeatIds.add(seatId);
         SeatSelectionLogic.updateSeatSelection(seatMap, seatId, true);
       }
-      
-      // Calculate total price
       _calculateTotalPrice();
     });
   }
@@ -130,11 +126,8 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
   double _calculateSeatPrice(Set<String> seats) {
     return SeatSelectionLogic.calculateSeatPrice(seatMap, seats);
   }
-
-  /// Save booking to Firestore using the BookingService
-/// Save booking to Firestore using the BookingService
   Future<void> _saveBookingToFirestore() async {
-    if (isSavingBooking) return; // Prevent multiple saves
+    if (isSavingBooking) return;
     
     setState(() {
       isSavingBooking = true;
@@ -142,8 +135,6 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
 
     try {
       final bookingState = ref.read(bookingProvider);
-      
-      // Convert BookingState to Booking
       final booking = Booking(
         departure: bookingState.departure!,
         destination: bookingState.destination!,
@@ -169,51 +160,28 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
           isSavingBooking = false;
         });
 
-        _showSuccessMessage();
-        print('Booking saved successfully with ID: $bookingId');
+        _showMessage("Booking saved successfully!", Colors.green.shade400);
       }
     } catch (e) {
       setState(() {
         isSavingBooking = false;
       });
       
-      _showErrorMessage();
-      print('Error saving booking: $e');
+      _showMessage('Failed to save booking. Please try again.', Colors.red.shade400);
     }
   }
 
-  void _showSuccessMessage() {
+  void _showMessage(String text, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Booking saved successfully!',
+          text,
           style: TextStyle(
             fontWeight: FontWeight.w500,
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.green.shade400,
-        duration: Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        margin: EdgeInsets.all(16),
-      ),
-    );
-  }
-
-  void _showErrorMessage() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Failed to save booking. Please try again.',
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.red.shade400,
+        backgroundColor: color,
         duration: Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
@@ -227,17 +195,15 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
   void _switchFlightView() {
     setState(() {
       if (showingOutbound) {
-        // Save outbound seats before switching
         outboundSeats = Set.from(selectedSeatIds);
         selectedSeatIds = Set.from(returnSeats);
       } else {
-        // Save return seats before switching
         returnSeats = Set.from(selectedSeatIds);
         selectedSeatIds = Set.from(outboundSeats);
       }
       showingOutbound = !showingOutbound;
       _calculateTotalPrice();
-      seatMap = SeatGenerator.generateSeatMap(); // Generate new seat map for the other flight
+      seatMap = SeatGenerator.generateSeatMap();
     });
   }
 
@@ -246,7 +212,6 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
     final hasReturnFlight = booking.isRoundTrip && booking.selectedReturnFlight != null;
     
     if (hasReturnFlight && showingOutbound) {
-      // Save current selection and move to return flight
       setState(() {
         outboundSeats = Set.from(selectedSeatIds);
         selectedSeatIds.clear();
@@ -255,7 +220,6 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
         seatMap = SeatGenerator.generateSeatMap();
       });
     } else {
-      // All seats selected, save booking
       if (hasReturnFlight) {
         returnSeats = Set.from(selectedSeatIds);
       } else {
@@ -265,7 +229,6 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
       await _saveBookingToFirestore();
 
       if (isBookingSaved) {
-        // Navigate to next screen or show completion
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => AirportSelectionScreen()),
@@ -321,34 +284,21 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
           child: Column(
             children: [
               SizedBox(height: 20),
-              
-              // Flight info
               FlightInfoWidget(
                 flight: showingOutbound 
                     ? booking.selectedOutboundFlight!
                     : booking.selectedReturnFlight!,
                 isOutbound: showingOutbound,
               ),
-              
               SizedBox(height: 16),
-              
-              // Passenger info
               PassengerInfoWidget(
                 totalPassengers: booking.passengers,
                 selectedSeatsCount: selectedSeatIds.length,
               ),
-              
               SizedBox(height: 16),
-              
-              // Seat selection using the imported widget
               SeatWidgets.buildSeatSelection(seatMap, _selectSeat),
-              
               SizedBox(height: 16),
-              
-              // Legend
               SeatLegendWidget(),
-              
-              // Selected seats info using the imported widget
               SelectedSeatsInfoWidget(
                 selectedSeatIds: selectedSeatIds,
                 outboundSeats: outboundSeats,

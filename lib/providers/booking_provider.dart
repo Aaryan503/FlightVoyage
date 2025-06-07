@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/airport.dart';
 import '../models/booking.dart';
 
-// Booking state class
 class BookingState {
   final Airport? departure;
   final Airport? destination;
@@ -70,7 +69,6 @@ class BookingState {
   }
 }
 
-// Booking notifier
 class BookingNotifier extends StateNotifier<BookingState> {
   BookingNotifier() : super(const BookingState());
 
@@ -133,12 +131,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 }
 
-// Provider
 final bookingProvider = StateNotifierProvider<BookingNotifier, BookingState>((ref) {
   return BookingNotifier();
 });
 
-// Computed providers for easier access
 final isBookingValidProvider = Provider<bool>((ref) {
   return ref.watch(bookingProvider).isValid;
 });

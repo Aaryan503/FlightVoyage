@@ -35,39 +35,27 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   AuthNotifier() : super(const AuthState()) {
-    // Listen to auth state changes
     _auth.authStateChanges().listen((User? user) {
       state = state.copyWith(user: user, isLoading: false, error: null);
     });
   }
 
-  // Sign in with Google
   Future<void> signInWithGoogle() async {
     state = state.copyWith(isLoading: true, error: null);
     
     try {
-      // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       
       if (googleUser == null) {
-        // User canceled sign-in
         state = state.copyWith(isLoading: false, error: 'Sign-in was canceled');
         return;
       }
-      
-      // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-      // Create a new credential
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
-      // Sign in to Firebase with the Google credential
       UserCredential userCredential = await _auth.signInWithCredential(credential);
-      
-      // Register user data in Firestore
       await _registerUserData(userCredential.user!);
       
       state = state.copyWith(
@@ -83,17 +71,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  // Register user data in Firestore
   Future<void> _registerUserData(User user) async {
     try {
-      // Check if user document already exists
       DocumentSnapshot userDoc = await _firestore
           .collection('users')
           .doc(user.uid)
           .get();
 
       if (!userDoc.exists) {
-        // Create new user document
         await _firestore.collection('users').doc(user.uid).set({
           'uid': user.uid,
           'email': user.email,
@@ -103,7 +88,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
           'lastSignIn': FieldValue.serverTimestamp(),
         });
       } else {
-        // Update last sign in time
         await _firestore.collection('users').doc(user.uid).update({
           'lastSignIn': FieldValue.serverTimestamp(),
         });
@@ -113,7 +97,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  // Sign out
   Future<void> signOut() async {
     state = state.copyWith(isLoading: true, error: null);
     
@@ -129,18 +112,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  // Clear error
   void clearError() {
     state = state.copyWith(error: null);
   }
 }
 
-// auth_providers.dart
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier();
 });
 
-// Convenience providers
 final currentUserProvider = Provider<User?>((ref) {
   return ref.watch(authNotifierProvider).user;
 });

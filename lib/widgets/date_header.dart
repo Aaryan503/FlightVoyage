@@ -1,4 +1,3 @@
-// File: lib/widgets/flight_details/date_header.dart
 import 'package:flutter/material.dart';
 import '../../utils/date_formatter.dart';
 

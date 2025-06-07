@@ -1,4 +1,3 @@
-// File: lib/screens/flight_details_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/booking.dart';

@@ -24,8 +24,6 @@ class FlightListView extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 20),
-          
-          // Outbound flights
           DateHeader(
             title: 'Departure',
             date: booking.departureDate!,

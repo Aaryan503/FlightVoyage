@@ -1,3 +1,4 @@
+import 'package:flightbooking/widgets/flight_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -8,7 +9,8 @@ import '../../widgets/airport_marker.dart';
 import '../../widgets/map_controls.dart';
 import '../../widgets/loading_screen.dart';
 import '../../widgets/route_card.dart';
-import '../../utils/flight_path_utils.dart';
+import '../../utils/flight_path.dart';
+import 'flight_history_screen.dart';
 
 class AirportSelectionScreen extends ConsumerStatefulWidget {
   @override
@@ -82,7 +84,6 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
     if (!_initialized) {
       _initialized = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        print('🚀 Loading temperatures from didChangeDependencies');
         ref.read(airportProvider.notifier).loadTemperatures();
       });
     }
@@ -157,6 +158,15 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
     });
   }
 
+  void _navigateToFlightHistory() {
+    Navigator.of(context).pop();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FlightHistoryScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final airports = ref.watch(airportsListProvider);
@@ -167,14 +177,11 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
     if (isLoading || !temperaturesLoaded) {
       return LoadingScreen();
     }
-
-    print('🔍 Build - Airports count: ${airports.length}');
-    print('🔍 Build - Temperatures: $temperatures');
-    print('🔍 Build - Temperatures Loaded: $temperaturesLoaded');
-
+    
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(),
+      drawer: FlightDrawer(navigateToFlightHistory: _navigateToFlightHistory),
       body: Stack(
         children: [
           _buildMap(airports),
@@ -256,17 +263,23 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
     if (selectedDeparture == null && selectedDestination == null) {
       return SizedBox.shrink();
     }
+    final appBarHeight = kToolbarHeight;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+    final totalTopOffset = appBarHeight + statusBarHeight + 8;
 
     return Positioned(
-      top: kToolbarHeight + MediaQuery.of(context).padding.top,
-      left: 0,
-      right: 0,
-      child: RouteCard(
-        selectedDeparture: selectedDeparture,
-        selectedDestination: selectedDestination,
-        temperatures: temperatures,
-        slideAnimation: _slideAnimation,
-        onBookFlight: _showBookingDialog,
+      top: totalTopOffset,
+      left: 16,
+      right: 16,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: RouteCard(
+          selectedDeparture: selectedDeparture,
+          selectedDestination: selectedDestination,
+          temperatures: temperatures,
+          slideAnimation: _slideAnimation,
+          onBookFlight: _showBookingDialog,
+        ),
       ),
     );
   }

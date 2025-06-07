@@ -15,24 +15,16 @@ class SeatGenerator {
       for (int seatIndex = 0; seatIndex < seatLetters.length; seatIndex++) {
         final letter = seatLetters[seatIndex];
         final seatId = '$row$letter';
-        
-        // Determine seat type and price
         SeatType seatType = SeatType.standard;
         double basePrice = 30000.0;
         bool isDisabled = false;
-        
-        // First 3 rows: Reserved for disabled passengers
         if (row <= 3) {
           isDisabled = true;
           seatType = SeatType.disabled;
           basePrice = 25000.0;
         }
-        
-        // Add some randomness to pricing
         final priceVariation = random.nextDouble() * 1000 - random.nextInt(300);
         final finalPrice = math.max(0, basePrice + priceVariation);
-        
-        // Randomly occupy some seats (about 20% occupancy)
         final isOccupied = random.nextDouble() < 0.2;
         
         rowSeats.add(Seat(
