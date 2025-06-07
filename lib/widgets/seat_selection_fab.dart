@@ -20,25 +20,20 @@ class SeatSelectionFAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Check if we can proceed
     bool canProceed = false;
     String buttonText = '';
     IconData buttonIcon = Icons.arrow_forward;
 
     if (!hasReturnFlight) {
-      // One-way trip - just need outbound seats
       canProceed = allSeatsSelected;
       buttonText = 'Confirm Booking';
       buttonIcon = Icons.bookmark_outline;
     } else {
-      // Round trip logic
       if (showingOutbound) {
-        // On outbound flight selection
         canProceed = allSeatsSelected;
         buttonText = 'Select Return Seats';
         buttonIcon = Icons.arrow_forward;
       } else {
-        // On return flight selection
         canProceed = allSeatsSelected && outboundSeatsSelected;
         buttonText = 'Proceed';
         buttonIcon = Icons.bookmark_outline;

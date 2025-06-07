@@ -27,7 +27,7 @@ class SeatSelectionLogic {
         for (int j = 0; j < seatMap[i].length; j++) {
           if (seatMap[i][j].id == seatId) {
             price += seatMap[i][j].price;
-            break; // Move to next seat ID
+            break;
           }
         }
       }

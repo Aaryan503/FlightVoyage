@@ -62,7 +62,6 @@ class FlightDrawer extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            subtitle: Text('Select departure and destination'),
             selected: true,
             selectedTileColor: Colors.blue.shade50,
             onTap: () {
@@ -80,7 +79,6 @@ class FlightDrawer extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            subtitle: Text('View your booked flights'),
             onTap: navigateToFlightHistory,
           ),
           Divider(),
@@ -90,12 +88,11 @@ class FlightDrawer extends StatelessWidget {
               color: Colors.grey.shade600,
             ),
             title: Text(
-              'Settings',
+              'Profile & Settings',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
               ),
             ),
-            subtitle: Text('App preferences'),
             onTap: () {
               Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -105,39 +102,6 @@ class FlightDrawer extends StatelessWidget {
                 ),
               );
             },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.help_outline,
-              color: Colors.grey.shade600,
-            ),
-            title: Text(
-              'Help & Support',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            subtitle: Text('Get assistance'),
-            onTap: () {
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Help & Support coming soon!'),
-                  backgroundColor: Colors.blue.shade600,
-                ),
-              );
-            },
-          ),
-          Spacer(),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Text(
-              'Version 1.0.0',
-              style: TextStyle(
-                color: Colors.grey.shade500,
-                fontSize: 12,
-              ),
-            ),
           ),
         ],
       ),

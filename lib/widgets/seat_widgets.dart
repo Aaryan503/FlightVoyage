@@ -64,7 +64,6 @@ class SeatWidgets {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Row number
             Container(
               width: 24,
               child: Text(
@@ -79,23 +78,12 @@ class SeatWidgets {
             ),
             
             SizedBox(width: 4),
-            
-            // Left section (3 seats: ABC)
             ...rowSeats.sublist(0, 3).map((seat) => buildSeat(seat, onSeatTap)),
-            
-            SizedBox(width: 8), // Aisle
-            
-            // Middle section (4 seats: DEFG)
+            SizedBox(width: 8), 
             ...rowSeats.sublist(3, 7).map((seat) => buildSeat(seat, onSeatTap)),
-            
-            SizedBox(width: 8), // Aisle
-            
-            // Right section (3 seats: HJK)
+            SizedBox(width: 8),
             ...rowSeats.sublist(7, 10).map((seat) => buildSeat(seat, onSeatTap)),
-            
             SizedBox(width: 4),
-            
-            // Row number (right side)
             Container(
               width: 24,
               child: Text(
@@ -131,7 +119,6 @@ class SeatWidgets {
       ),
       child: Column(
         children: [
-          // Seat letters header
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32),
             child: SingleChildScrollView(
@@ -139,7 +126,6 @@ class SeatWidgets {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Left section letters
                   ...['A', 'B', 'C'].map((letter) => Container(
                     width: 26,
                     child: Text(
@@ -152,8 +138,7 @@ class SeatWidgets {
                       ),
                     ),
                   )),
-                  SizedBox(width: 8), // Aisle
-                  // Middle section letters
+                  SizedBox(width: 8),
                   ...['D', 'E', 'F', 'G'].map((letter) => Container(
                     width: 26,
                     child: Text(
@@ -166,8 +151,7 @@ class SeatWidgets {
                       ),
                     ),
                   )),
-                  SizedBox(width: 8), // Aisle
-                  // Right section letters
+                  SizedBox(width: 8),
                   ...['H', 'J', 'K'].map((letter) => Container(
                     width: 26,
                     child: Text(
@@ -184,10 +168,7 @@ class SeatWidgets {
               ),
             ),
           ),
-          
           SizedBox(height: 8),
-          
-          // Seat map
           Container(
             height: 400,
             child: SingleChildScrollView(
