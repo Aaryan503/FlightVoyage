@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/airport.dart';
 import '../providers/booking_provider.dart';
-import '../screens/flight_details_refactored.dart';
+import '../screens/flight_details.dart';
 
 class BookingDialog extends ConsumerStatefulWidget {
   final Airport departure;

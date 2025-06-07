@@ -6,7 +6,7 @@ import '../providers/booking_provider.dart';
 import '../widgets/flight_list_view.dart';
 import '../widgets/proceed_button.dart';
 import '../services/flight_service.dart';
-import '../screens/seat_selection_screen.dart';
+import 'seat_selection.dart';
 
 class FlightDetailsScreen extends ConsumerStatefulWidget {
   @override
