@@ -16,6 +16,7 @@ dependencies:
   flutter_riverpod: ^2.6.1
   http: ^1.4.0
   syncfusion_flutter_maps: ^29.2.8
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

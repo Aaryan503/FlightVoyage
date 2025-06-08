@@ -1,16 +1,16 @@
-import 'package:flightbooking/widgets/flight_drawer.dart';
+import 'package:flightbooking/screens/homescreen/widgets/flight_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
-import '../../providers/airport_provider.dart';
-import '../../models/airport.dart';
-import '../../widgets/booking_dialog.dart';
-import '../../widgets/airport_marker.dart';
-import '../../widgets/map_controls.dart';
-import '../../widgets/loading_screen.dart';
-import '../../widgets/route_card.dart';
-import '../../utils/flight_path.dart';
-import 'flight_history_screen.dart';
+import '../../../providers/airport_provider.dart';
+import '../../../models/airport.dart';
+import 'widgets/booking_dialog.dart';
+import 'widgets/airport_marker.dart';
+import 'widgets/map_controls.dart';
+import 'widgets/loading_screen.dart';
+import 'widgets/route_card.dart';
+import '../../../utils/flight_path.dart';
+import '../flight_history/flight_history_screen.dart';
 
 class AirportSelectionScreen extends ConsumerStatefulWidget {
   @override
@@ -202,7 +202,7 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
           fontSize: 20,
         ),
       ),
-      backgroundColor: Colors.blue.shade600.withOpacity(0.9),
+      backgroundColor: Colors.blue.shade600.withValues(alpha: 0.9),
       foregroundColor: Colors.white,
       elevation: 0,
       actions: [

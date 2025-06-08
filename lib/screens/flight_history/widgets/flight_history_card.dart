@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/flight_booking.dart';
+import '../../../models/flight_booking.dart';
 
 class FlightHistoryCard extends StatelessWidget {
   final FlightBooking booking;

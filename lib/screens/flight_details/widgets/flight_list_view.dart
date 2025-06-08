@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/booking.dart';
-import '../providers/booking_provider.dart';
+import '../../../models/booking.dart';
+import '../../../providers/booking_provider.dart';
 import 'flight_card.dart';
 import 'date_header.dart';
 

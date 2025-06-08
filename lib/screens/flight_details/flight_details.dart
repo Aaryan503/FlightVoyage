@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/booking.dart';
-import '../providers/booking_provider.dart';
-import '../widgets/flight_list_view.dart';
-import '../widgets/proceed_button.dart';
-import '../services/flight_service.dart';
-import 'seat_selection.dart';
+import '../../models/booking.dart';
+import '../../providers/booking_provider.dart';
+import 'widgets/flight_list_view.dart';
+import 'widgets/proceed_button.dart';
+import '../../services/flight_service.dart';
+import '../seat_selection/seat_selection.dart';
 
 class FlightDetailsScreen extends ConsumerStatefulWidget {
   @override

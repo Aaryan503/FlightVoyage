@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/airport.dart';
+import '../../../models/airport.dart';
 
 class TemperatureDisplay extends StatelessWidget {
   final Airport? airport;

@@ -1,18 +1,18 @@
-import 'package:flightbooking/screens/airport_selection.dart';
+import 'package:flightbooking/screens/homescreen/airport_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/booking_provider.dart';
-import '../models/seat.dart';
-import '../models/booking.dart';
-import '../utils/seat_generator.dart';
-import '../widgets/seat_widgets.dart';
-import '../widgets/seat_selection_fab.dart';
-import '../widgets/selected_seats_info_widget.dart';
-import '../widgets/flight_info_widget.dart';
-import '../widgets/seat_legend_widget.dart';
-import '../widgets/passenger_info_widget.dart';
-import '../services/booking_service.dart';
-import '../utils/seat_selection_logic.dart';
+import '../../providers/booking_provider.dart';
+import '../../models/seat.dart';
+import '../../models/booking.dart';
+import '../../utils/seat_generator.dart';
+import 'widgets/seat_widgets.dart';
+import 'widgets/seat_selection_fab.dart';
+import 'widgets/selected_seats_info_widget.dart';
+import 'widgets/flight_info_widget.dart';
+import 'widgets/seat_legend_widget.dart';
+import 'widgets/passenger_info_widget.dart';
+import '../../services/booking_service.dart';
+import '../../utils/seat_selection_logic.dart';
 
 class SeatSelectionScreen extends ConsumerStatefulWidget {
   @override

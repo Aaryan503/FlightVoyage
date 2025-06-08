@@ -43,7 +43,7 @@ class SeatLegendWidget extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    _buildLegendItem(Colors.purple.shade300, 'Disabled\n(Rows 1-3)', ' '),
+                    _buildLegendItem(Colors.purple.shade300, 'Disabled', ' '),
                     SizedBox(height: 8),
                     _buildLegendItem(Colors.green.shade400, 'Selected', ''),
                   ],

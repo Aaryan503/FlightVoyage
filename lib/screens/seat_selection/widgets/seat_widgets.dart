@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/seat.dart';
+import '../../../models/seat.dart';
 
 class SeatWidgets {
   static Color getSeatColor(Seat seat) {

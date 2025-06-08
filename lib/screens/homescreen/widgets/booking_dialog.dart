@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/airport.dart';
-import '../providers/booking_provider.dart';
-import '../screens/flight_details.dart';
+import '../../../models/airport.dart';
+import '../../../providers/booking_provider.dart';
+import '../../flight_details/flight_details.dart';
 
 class BookingDialog extends ConsumerStatefulWidget {
   final Airport departure;
@@ -187,7 +187,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
               Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -220,9 +220,9 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -246,7 +246,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
                       widget.departure.name,
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha: 0.8),
                       ),
                     ),
                   ],
@@ -259,7 +259,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
             height: 2,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.white.withOpacity(0.3), Colors.white.withOpacity(0.7)],
+                colors: [Colors.white.withValues(alpha: 0.3), Colors.white.withValues(alpha: 0.7)],
               ),
               borderRadius: BorderRadius.circular(1),
             ),
@@ -285,7 +285,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
                       widget.destination.name,
                       style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha: 0.8),
                       ),
                     ),
                   ],
@@ -342,7 +342,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
         ),
         boxShadow: isSelected ? [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.3),
+            color: Colors.blue.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: Offset(0, 4),
           ),
@@ -407,7 +407,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
               border: Border.all(color: Colors.grey.shade200),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 8,
                   offset: Offset(0, 2),
                 ),
@@ -420,7 +420,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
                   Container(
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.1),
+                      color: Colors.blue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(Icons.people, color: Colors.blue, size: 20),
@@ -577,7 +577,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: Offset(0, 2),
           ),
@@ -595,7 +595,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
                 Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(icon, color: color, size: 20),
@@ -693,7 +693,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: isBookingValid ? [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.4),
+                          color: Colors.blue.withValues(alpha: 0.4),
                           blurRadius: 12,
                           offset: Offset(0, 6),
                         ),
@@ -752,7 +752,7 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
                 blurRadius: 20,
                 offset: Offset(0, 10),
               ),

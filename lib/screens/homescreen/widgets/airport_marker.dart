@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/airport.dart';
+import '../../../../models/airport.dart';
 
 class AirportMarker extends StatelessWidget {
   final Airport airport;
@@ -45,7 +45,7 @@ class AirportMarker extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.3),
+                            color: Colors.black.withValues(alpha: 0.3),
                             blurRadius: 8,
                             offset: Offset(0, 4),
                           ),
@@ -59,7 +59,7 @@ class AirportMarker extends StatelessWidget {
                           color: Colors.white,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.5),
+                              color: Colors.black.withValues(alpha: 0.5),
                               blurRadius: 2,
                             ),
                           ],
@@ -80,7 +80,7 @@ class AirportMarker extends StatelessWidget {
                         border: Border.all(color: Colors.white, width: 3),
                         boxShadow: [
                           BoxShadow(
-                            color: (isSelected ? Colors.red : Colors.blue).withOpacity(0.4),
+                            color: (isSelected ? Colors.red : Colors.blue).withValues(alpha: 0.4),
                             blurRadius: 12,
                             offset: Offset(0, 4),
                           ),
@@ -96,9 +96,9 @@ class AirportMarker extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.8),
+                        color: Colors.black.withValues(alpha: 0.8),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.white.withOpacity(0.3)),
+                        border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                       ),
                       child: Text(
                         airport.code,

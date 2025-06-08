@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/airport.dart';
+import '../../../models/airport.dart';
 import 'temperature_display.dart';
 
 class RouteCard extends StatelessWidget {
@@ -31,7 +31,7 @@ class RouteCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.blue.withOpacity(0.2),
+              color: Colors.blue.withValues(alpha: 0.2),
               blurRadius: 15,
               offset: Offset(0, 8),
             ),
@@ -161,7 +161,7 @@ class RouteCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withOpacity(0.3),
+            color: Colors.blue.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: Offset(0, 4),
           ),

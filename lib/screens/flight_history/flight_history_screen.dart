@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../providers/auth_provider.dart';
-import '../widgets/flight_history_card.dart';
-import '../widgets/flight_detail_modal.dart';
-import '../models/flight_booking.dart';
+import '../../providers/auth_provider.dart';
+import 'widgets/flight_history_card.dart';
+import 'widgets/flight_detail_modal.dart';
+import '../../models/flight_booking.dart';
 
 class FlightHistoryScreen extends ConsumerStatefulWidget {
   @override

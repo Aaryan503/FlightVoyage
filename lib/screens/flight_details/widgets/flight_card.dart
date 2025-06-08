@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/booking.dart';
-import '../../utils/date_formatter.dart';
+import '../../../../models/booking.dart';
+import '../../../../utils/date_formatter.dart';
 
 class FlightCard extends StatelessWidget {
   final FlightInfo flight;
@@ -36,8 +36,8 @@ class FlightCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: isSelected 
-                  ? Colors.green.withOpacity(0.2)
-                  : Colors.black.withOpacity(0.1),
+                  ? Colors.green.withValues(alpha: 0.2)
+                  : Colors.black.withValues(alpha: 0.1),
               blurRadius: isSelected ? 20 : 15,
               offset: Offset(0, 5),
             ),

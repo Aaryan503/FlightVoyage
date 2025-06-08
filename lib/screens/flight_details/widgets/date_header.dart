@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../utils/date_formatter.dart';
+import '../../../../utils/date_formatter.dart';
 
 class DateHeader extends StatelessWidget {
   final String title;
@@ -27,7 +27,7 @@ class DateHeader extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: (isReturn ? Colors.orange : Colors.blue).withOpacity(0.3),
+            color: (isReturn ? Colors.orange : Colors.blue).withValues(alpha: 0.3),
             blurRadius: 12,
             offset: Offset(0, 6),
           ),
@@ -38,7 +38,7 @@ class DateHeader extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
@@ -65,7 +65,7 @@ class DateHeader extends StatelessWidget {
                   DateFormatter.formatDate(date),
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
                 ),
               ],
