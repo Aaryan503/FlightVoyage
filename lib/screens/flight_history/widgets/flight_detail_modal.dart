@@ -296,6 +296,27 @@ class FlightDetailModal extends StatelessWidget {
           
           SizedBox(height: 16),
           
+          Row(
+            children: [
+              Expanded(
+                child: _buildDetailItem(
+                  'Duration',
+                  flight.durationDisplay,
+                  Icons.timer,
+                ),
+              ),
+              Expanded(
+                child: _buildDetailItem(
+                  'Miles',
+                  '${flight.miles.toStringAsFixed(0)} miles',
+                  Icons.straighten,
+                ),
+              ),
+            ],
+          ),
+          
+          SizedBox(height: 16),
+          
           Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(

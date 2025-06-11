@@ -19,6 +19,7 @@ class SeatSelectionLogic {
   static double calculateSeatPrice(
     List<List<Seat>> seatMap,
     Set<String> selectedSeatIds,
+    {double userTotalMiles = 0}
   ) {
     double price = 0.0;
     
@@ -32,8 +33,15 @@ class SeatSelectionLogic {
         }
       }
     }
-    
-    return price;
+
+    // Apply discount based on userTotalMiles
+    double discount = 0.0;
+    if (userTotalMiles >= 100000) {
+      discount = 0.10;
+    } else if (userTotalMiles >= 50000) {
+      discount = 0.05;
+    }
+    return price * (1 - discount);
   }
 
   static bool canSelectSeat(

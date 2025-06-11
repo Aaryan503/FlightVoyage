@@ -26,6 +26,7 @@ class FlightInfo {
   final Airport arrivalAirport;
   final String airline;
   final Duration duration;
+  final double miles;
 
   const FlightInfo({
     required this.flightNumber,
@@ -35,5 +36,6 @@ class FlightInfo {
     required this.arrivalAirport,
     required this.airline,
     required this.duration,
+    required this.miles,
   });
 }

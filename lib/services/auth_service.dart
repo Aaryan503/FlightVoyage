@@ -9,6 +9,7 @@ class AuthService {
   User? get currentUser => _auth.currentUser;
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
+  //signs in with Google and checks if user is signed in already
   Future<UserCredential?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -26,6 +27,7 @@ class AuthService {
     }
   }
 
+  //registers user data in Firestore
   Future<void> _registerUserData(User user) async {
     try {
       DocumentSnapshot userDoc = await _firestore
@@ -41,6 +43,7 @@ class AuthService {
           'photoURL': user.photoURL,
           'createdAt': FieldValue.serverTimestamp(),
           'lastSignIn': FieldValue.serverTimestamp(),
+          'totalMiles': 0,
         });
       } else {
         await _firestore.collection('users').doc(user.uid).update({

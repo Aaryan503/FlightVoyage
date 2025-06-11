@@ -298,6 +298,8 @@ class _BookingDialogState extends ConsumerState<BookingDialog> with TickerProvid
     );
   }
 
+
+  //this decides if the trip is one way or round trip and updates the booking state accordingly to trigger UI updates.
   Widget _buildTripTypeSelector() {
     final booking = ref.watch(bookingProvider);
     

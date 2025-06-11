@@ -167,6 +167,14 @@ class FlightHistoryCard extends StatelessWidget {
                     ),
                   ),
                   Text(
+                    '${flight.miles.toStringAsFixed(0)} miles',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
                     flight.airline,
                     style: TextStyle(
                       fontSize: 10,

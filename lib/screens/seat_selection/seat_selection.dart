@@ -1,4 +1,4 @@
-import 'package:flightbooking/screens/homescreen/airport_selection.dart';
+import 'package:flight_booking/screens/homescreen/airport_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/booking_provider.dart';
@@ -13,6 +13,19 @@ import 'widgets/seat_legend_widget.dart';
 import 'widgets/passenger_info_widget.dart';
 import '../../services/booking_service.dart';
 import '../../utils/seat_selection_logic.dart';
+import '../../models/user.dart' as app_user;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../providers/auth_provider.dart';
+
+final userDocProvider = StreamProvider<app_user.User?>((ref) {
+  final firebaseUser = ref.watch(currentUserProvider);
+  if (firebaseUser == null) return Stream.value(null);
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(firebaseUser.uid)
+      .snapshots()
+      .map((doc) => doc.exists ? app_user.User.fromFirestore(doc.id, doc.data()!) : null);
+});
 
 class SeatSelectionScreen extends ConsumerStatefulWidget {
   @override
@@ -34,6 +47,7 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
   double totalSeatPrice = 0.0;
   bool isBookingSaved = false;
   bool isSavingBooking = false;
+  double userTotalMiles = 0.0;
 
   @override
   void initState() {
@@ -120,12 +134,13 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
   }
 
   void _calculateTotalPrice() {
-    totalSeatPrice = SeatSelectionLogic.calculateSeatPrice(seatMap, selectedSeatIds);
+    totalSeatPrice = SeatSelectionLogic.calculateSeatPrice(seatMap, selectedSeatIds, userTotalMiles: userTotalMiles);
   }
 
   double _calculateSeatPrice(Set<String> seats) {
-    return SeatSelectionLogic.calculateSeatPrice(seatMap, seats);
+    return SeatSelectionLogic.calculateSeatPrice(seatMap, seats, userTotalMiles: userTotalMiles);
   }
+
   Future<void> _saveBookingToFirestore() async {
     if (isSavingBooking) return;
     
@@ -192,6 +207,7 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
     );
   }
 
+  //Switches between outbound and return flight views
   void _switchFlightView() {
     setState(() {
       if (showingOutbound) {
@@ -324,6 +340,16 @@ class _SeatSelectionScreenState extends ConsumerState<SeatSelectionScreen>
     final hasReturnFlight = booking.isRoundTrip && booking.selectedReturnFlight != null;
     final allSeatsSelected = selectedSeatIds.length == booking.passengers;
     final outboundSeatsSelected = outboundSeats.length == booking.passengers;
+    final userDocAsync = ref.watch(userDocProvider);
+
+    userDocAsync.when(
+      data: (user) {
+        userTotalMiles = user?.totalMiles ?? 0.0;
+        _calculateTotalPrice();
+      },
+      loading: () => Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(child: Text('Error loading user info')),
+    );
 
     return Scaffold(
       backgroundColor: Colors.grey.shade50,

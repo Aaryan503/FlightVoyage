@@ -54,7 +54,7 @@ class SeatSelectionFAB extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: ((hasReturnFlight && showingOutbound) ? Colors.orange : Colors.green).withOpacity(0.3),
+            color: ((hasReturnFlight && showingOutbound) ? Colors.orange : Colors.green).withValues(alpha: 0.3),
             blurRadius: 12,
             offset: Offset(0, 6),
           ),

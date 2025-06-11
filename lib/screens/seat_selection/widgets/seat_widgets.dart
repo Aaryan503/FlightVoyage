@@ -41,7 +41,7 @@ class SeatWidgets {
               : null,
           boxShadow: seat.isSelected 
               ? [BoxShadow(
-                  color: Colors.green.withOpacity(0.3),
+                  color: Colors.green.withValues(alpha: 0.3),
                   blurRadius: 6,
                   offset: Offset(0, 3),
                 )]
@@ -55,7 +55,7 @@ class SeatWidgets {
       ),
     );
   }
-
+  //building a row of seats
   static Widget buildSeatRow(List<Seat> rowSeats, int rowNumber, Function(String) onSeatTap) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
@@ -101,7 +101,8 @@ class SeatWidgets {
       ),
     );
   }
-
+  //generalized seat selection widget, buikds the entire seat selection UI with seat rows and labels
+  //p.s. I just realized that seat selection screens are just fancy 2D arrays of buttons
   static Widget buildSeatSelection(List<List<Seat>> seatMap, Function(String) onSeatTap) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16),
@@ -111,7 +112,7 @@ class SeatWidgets {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 15,
             offset: Offset(0, 5),
           ),

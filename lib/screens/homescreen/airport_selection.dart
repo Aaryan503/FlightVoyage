@@ -1,4 +1,5 @@
-import 'package:flightbooking/screens/homescreen/widgets/flight_drawer.dart';
+
+import 'package:flight_booking/screens/homescreen/widgets/flight_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
@@ -57,6 +58,7 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.elasticOut));
   }
 
+  //this sets up the map behaviour
   void _initializeMapBehavior() {
     _zoomPanBehavior = MapZoomPanBehavior(
       enablePanning: true,
@@ -78,6 +80,7 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
   }
 
   @override
+  //this method is called basically when the temperatures are loaded via the provider and added in the temperture card 
   void didChangeDependencies() {
     super.didChangeDependencies();
     
@@ -102,6 +105,7 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
     );
   }
 
+  //logic to handle airport selection and deselection
   void _onMarkerTapped(Airport airport) {
     setState(() {
       if (selectedDeparture == null) {
@@ -118,6 +122,8 @@ class _AirportSelectionScreenState extends ConsumerState<AirportSelectionScreen>
       }
     });
   }
+
+  //Map contriols for zooming in, zooming out and centering the route
 
   void _zoomIn() {
     final currentZoom = _zoomPanBehavior.zoomLevel;

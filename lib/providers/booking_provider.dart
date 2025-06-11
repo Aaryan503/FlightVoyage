@@ -69,8 +69,10 @@ class BookingState {
   }
 }
 
+// BookingNotifier manages the booking state and provides methods to update the details which are being selected in UI by user.
 class BookingNotifier extends StateNotifier<BookingState> {
   BookingNotifier() : super(const BookingState());
+
 
   void setAirports(Airport departure, Airport destination) {
     state = state.copyWith(

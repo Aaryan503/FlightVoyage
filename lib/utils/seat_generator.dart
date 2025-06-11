@@ -2,9 +2,9 @@ import 'dart:math' as math;
 import '../models/seat.dart';
 
 class SeatGenerator {
-  static const List<String> seatLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K'];
+  static const List<String> seatLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   static const int totalRows = 30;
-
+  //this generates a seat map for an airplane with 30 rows and 10 columns (A-K)
   static List<List<Seat>> generateSeatMap() {
     final random = math.Random();
     List<List<Seat>> seatMap = [];
@@ -23,8 +23,6 @@ class SeatGenerator {
           seatType = SeatType.disabled;
           basePrice = 25000.0;
         }
-        final priceVariation = random.nextDouble() * 1000 - random.nextInt(300);
-        final finalPrice = math.max(0, basePrice + priceVariation);
         final isOccupied = random.nextDouble() < 0.2;
         
         rowSeats.add(Seat(
@@ -32,7 +30,7 @@ class SeatGenerator {
           row: row,
           letter: letter,
           isOccupied: isOccupied,
-          price: finalPrice.toDouble(),
+          price: basePrice,
           isDisabled: isDisabled,
           type: seatType,
         ));

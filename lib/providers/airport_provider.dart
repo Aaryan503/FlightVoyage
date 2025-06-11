@@ -71,6 +71,7 @@ class AirportNotifier extends StateNotifier<AirportState> {
     temperaturesLoaded: false,
   ));
 
+//Fetching and Loading temperatures for the airports with a Fallback mechanism
   Future<void> loadTemperatures() async {
     if (state.isLoading || state.temperaturesLoaded) return;
     state = state.copyWith(isLoading: true);

@@ -1,4 +1,4 @@
-import 'package:flightbooking/screens/homescreen/airport_selection.dart';
+import 'package:flight_booking/screens/homescreen/airport_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/auth_provider.dart';

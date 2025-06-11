@@ -19,12 +19,31 @@ class FlightService {
     required int count,
   }) {
     final random = math.Random();
-    
+    const startHour = 6;
+    const endHour = 22;
+    const slotsPerHour = 2;
+    final totalSlots = (endHour - startHour + 1) * slotsPerHour;
+    final slotIndices = <int>{};
+    while (slotIndices.length < count && slotIndices.length < totalSlots) {
+      slotIndices.add(random.nextInt(totalSlots));
+    }
+    final slotList = slotIndices.toList()..sort(); 
+    final miles = calculateFlightDistance(from, to);
+
     return List.generate(count, (index) {
       final airline = _airlines[random.nextInt(_airlines.length)];
       final flightNumber = '${airline.substring(0, 2).toUpperCase()}${random.nextInt(900) + 100}';
+      final slot = (index < slotList.length) ? slotList[index] : random.nextInt(totalSlots);
+      final departureHour = startHour + (slot ~/ slotsPerHour);
+      final departureMinute = (slot % slotsPerHour) * 30;
+      final departureTime = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        departureHour,
+        departureMinute,
+      );
 
-      final departureTime = _generateDepartureTime(date, index, random);
       final duration = _calculateFlightDuration(from, to);
       final arrivalTime = departureTime.add(duration);
 
@@ -36,31 +55,13 @@ class FlightService {
         arrivalAirport: to,
         airline: airline,
         duration: duration,
+        miles: miles,
       );
     });
   }
 
-  DateTime _generateDepartureTime(DateTime date, int index, math.Random random) {
-    // Generate departure times at 30-minute intervals between 6:00 and 22:00
-    const startHour = 6;
-    const slotsPerHour = 2; // 0 or 30 minutes
-    const totalSlots = (22 - startHour + 1) * slotsPerHour;
-    
-    final slot = (index < totalSlots) ? index : random.nextInt(totalSlots);
-    final departureHour = startHour + (slot ~/ slotsPerHour);
-    final departureMinute = (slot % slotsPerHour) * 30;
-
-    return DateTime(
-      date.year,
-      date.month,
-      date.day,
-      departureHour,
-      departureMinute,
-    );
-  }
-
-  Duration _calculateFlightDuration(Airport from, Airport to) {
-    // Simple distance calculation and flight duration estimation
+  double calculateFlightDistance(Airport from, Airport to) {
+    // Simple distance calculation and flight duration estimation haversine formula
     final lat1 = from.latitude * math.pi / 180;
     final lon1 = from.longitude * math.pi / 180;
     final lat2 = to.latitude * math.pi / 180;
@@ -72,9 +73,14 @@ class FlightService {
     final a = math.sin(dLat / 2) * math.sin(dLat / 2) +
         math.cos(lat1) * math.cos(lat2) * math.sin(dLon / 2) * math.sin(dLon / 2);
     final c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
-    final distance = 6371 * c; // Distance in km
+    final distance = 6371 * c; 
+    return distance;
+  }
+
+  Duration _calculateFlightDuration(Airport from, Airport to) {
     
-    // Approximate flight time (800 km/h average speed + 30 min for takeoff/landing)
+    final distance = calculateFlightDistance(from, to);
+    // Approximate flight time
     final hours = (distance / 800) + 0.5;
     final roundedHours = (hours * 2).round() / 2;
     return Duration(minutes: (roundedHours * 60).round());

@@ -39,7 +39,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(user: user, isLoading: false, error: null);
     });
   }
-
+  //Sign in with Google and check if user is signed in already
   Future<void> signInWithGoogle() async {
     state = state.copyWith(isLoading: true, error: null);
     
@@ -70,7 +70,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
     }
   }
-
+  // Register user data in Firestore
   Future<void> _registerUserData(User user) async {
     try {
       DocumentSnapshot userDoc = await _firestore

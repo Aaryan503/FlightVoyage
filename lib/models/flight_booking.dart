@@ -59,6 +59,7 @@ class FlightDetails {
   final List<String> seatNumbers;
   final double totalSeatPrice;
   final int duration;
+  final double miles;
 
   FlightDetails({
     required this.flightNumber,
@@ -77,6 +78,7 @@ class FlightDetails {
     required this.seatNumbers,
     required this.totalSeatPrice,
     required this.duration,
+    required this.miles,
   });
 
   factory FlightDetails.fromFirestore(Map<String, dynamic> data) {
@@ -97,6 +99,7 @@ class FlightDetails {
       seatNumbers: List<String>.from(data['seatNumbers'] ?? []),
       totalSeatPrice: (data['totalSeatPrice'] ?? 0.0).toDouble(),
       duration: data['duration'] ?? 0,
+      miles: (data['miles'] ?? 0.0).toDouble(),
     );
   }
 

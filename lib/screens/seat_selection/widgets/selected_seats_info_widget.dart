@@ -40,7 +40,7 @@ class SelectedSeatsInfoWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.green.withOpacity(0.3),
+            color: Colors.green.withValues(alpha: 0.3),
             blurRadius: 12,
             offset: Offset(0, 6),
           ),
@@ -54,6 +54,7 @@ class SelectedSeatsInfoWidget extends StatelessWidget {
               Icon(Icons.airline_seat_recline_normal, color: Colors.white),
               SizedBox(width: 12),
               Expanded(
+                // Displaying the number of selected seats and total passengers
                 child: Text(
                   'Selected Seats for ${showingOutbound ? 'Outbound' : 'Return'} Flight (${selectedSeatIds.length}/$totalPassengers)',
                   style: TextStyle(
@@ -70,7 +71,7 @@ class SelectedSeatsInfoWidget extends StatelessWidget {
             'Seats: ${selectedSeatsList.join(', ')}',
             style: TextStyle(
               fontSize: 14,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ),
           SizedBox(height: 4),
@@ -78,7 +79,7 @@ class SelectedSeatsInfoWidget extends StatelessWidget {
             'Price: ₹${totalSeatPrice.toStringAsFixed(0)}',
             style: TextStyle(
               fontSize: 14,
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ),
           if (hasReturnFlight) ...[
@@ -86,7 +87,7 @@ class SelectedSeatsInfoWidget extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: SingleChildScrollView(
@@ -112,7 +113,7 @@ class SelectedSeatsInfoWidget extends StatelessWidget {
                             'Outbound: ${outboundSeats.isEmpty ? 'Not selected' : (outboundSeats.toList()..sort()).join(', ')}',
                             style: TextStyle(
                               fontSize: 11,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha: 0.9),
                             ),
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
@@ -121,7 +122,7 @@ class SelectedSeatsInfoWidget extends StatelessWidget {
                             'Return: ${returnSeats.isEmpty ? 'Not selected' : (returnSeats.toList()..sort()).join(', ')}',
                             style: TextStyle(
                               fontSize: 11,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Colors.white.withValues(alpha: 0.9),
                             ),
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,

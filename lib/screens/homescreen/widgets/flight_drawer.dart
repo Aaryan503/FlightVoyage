@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../profile/profile_screen.dart';
 
-class FlightDrawer extends StatelessWidget {
+class FlightDrawer extends ConsumerWidget {
   final VoidCallback navigateToFlightHistory;
 
   const FlightDrawer({
@@ -8,7 +10,7 @@ class FlightDrawer extends StatelessWidget {
     required this.navigateToFlightHistory}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
       child: Column(
         children: [
@@ -88,10 +90,9 @@ class FlightDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Settings screen coming soon!'),
-                  backgroundColor: Colors.blue.shade600,
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
                 ),
               );
             },

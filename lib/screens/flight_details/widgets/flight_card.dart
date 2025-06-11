@@ -197,15 +197,30 @@ class FlightCard extends StatelessWidget {
                   : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Text(
-              DateFormatter.formatDuration(flight.duration),
-              style: TextStyle(
-                fontSize: 12,
-                color: isSelected 
-                    ? Colors.green.shade700
-                    : Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  DateFormatter.formatDuration(flight.duration),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isSelected 
+                        ? Colors.green.shade700
+                        : Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  '${flight.miles.toStringAsFixed(0)} miles',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: isSelected 
+                        ? Colors.green.shade700
+                        : Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 8),
@@ -270,4 +285,3 @@ class FlightCard extends StatelessWidget {
     );
   }
 }
-

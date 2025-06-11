@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/booking.dart';
 import '../providers/auth_provider.dart';
+import 'flight_service.dart';
 
 class BookingService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Save booking to Firestore
+  //Save booking to Firestore as a user subcollection
   static Future<String?> saveBookingToFirestore({
     required WidgetRef ref,
     required Booking booking,
@@ -22,12 +23,11 @@ class BookingService {
         throw Exception('User not authenticated');
       }
 
-      // Create booking document reference
       final bookingRef = _firestore
           .collection('users')
           .doc(user.uid)
           .collection('bookings')
-          .doc(); // Auto-generate document ID
+          .doc();
 
       final bookingId = bookingRef.id;
       final bookingTimestamp = FieldValue.serverTimestamp();
@@ -62,7 +62,6 @@ class BookingService {
         );
       }
 
-      // Create a summary document at the booking level
       await _saveBookingSummary(
         bookingRef: bookingRef,
         bookingId: bookingId,
@@ -73,6 +72,14 @@ class BookingService {
         calculateSeatPrice: calculateSeatPrice,
         bookingTimestamp: bookingTimestamp,
       );
+
+      // Calculate total miles for the booking
+      double totalMiles = outboundFlight.miles;
+      if (booking.isRoundTrip && returnFlight != null) {
+        totalMiles += returnFlight.miles;
+      }
+      final userRef = _firestore.collection('users').doc(user.uid);
+      await userRef.set({'totalMiles': FieldValue.increment(totalMiles)}, SetOptions(merge: true));
 
       return bookingId;
     } catch (e) {
@@ -94,46 +101,40 @@ class BookingService {
     required bool isRoundTrip,
     required FieldValue bookingTimestamp,
   }) async {
+    // Calculate miles using FlightService
+    final miles = FlightService().calculateFlightDistance(flight.departureAirport, flight.arrivalAirport);
+
     Map<String, dynamic> flightBookingData = {
       'bookingId': bookingId,
       'userId': userId,
       'flightType': flightType,
       'bookingTimestamp': bookingTimestamp,
-      
-      // Flight Information
       'flightNumber': flight.flightNumber,
       'airline': flight.airline,
-      
-      // Departure Information
       'departureAirportCode': flight.departureAirport.code,
       'departureAirportName': flight.departureAirport.name,
       'departureCity': flight.departureAirport.city,
       'departureDate': Timestamp.fromDate(flight.departureTime),
       'departureTime': _formatTime(flight.departureTime),
-      
-      // Arrival Information
       'arrivalAirportCode': flight.arrivalAirport.code,
       'arrivalAirportName': flight.arrivalAirport.name,
       'arrivalCity': flight.arrivalAirport.city,
       'arrivalDate': Timestamp.fromDate(flight.arrivalTime),
       'arrivalTime': _formatTime(flight.arrivalTime),
-      
-      // Booking Information
       'numberOfPassengers': passengers,
       'seatNumbers': seatNumbers.toList()..sort(),
       'totalSeatPrice': calculateSeatPrice(seatNumbers),
       'bookingStatus': 'confirmed',
       'paymentStatus': 'pending',
-      
-      // Trip Information
       'isRoundTrip': isRoundTrip,
       'duration': flight.duration.inMinutes,
+      'miles': isRoundTrip ? miles * 2 : miles,
     };
 
     await bookingRef.collection('flights').doc(flightType).set(flightBookingData);
   }
 
-  /// Save booking summary
+  // Save booking summary
   static Future<void> _saveBookingSummary({
     required DocumentReference bookingRef,
     required String bookingId,

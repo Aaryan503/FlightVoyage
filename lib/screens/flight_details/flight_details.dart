@@ -63,6 +63,7 @@ class _FlightDetailsScreenState extends ConsumerState<FlightDetailsScreen>
     _fadeController.forward();
   }
 
+  // Generates flights based on the booking details.
   void _generateFlights() {
     final booking = ref.read(bookingProvider);
     final flightService = FlightService();
@@ -91,7 +92,7 @@ class _FlightDetailsScreenState extends ConsumerState<FlightDetailsScreen>
       ref.read(bookingProvider.notifier).selectOutboundFlight(flight);
     }
   }
-
+  
   void _onProceedToSeatSelection() {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => SeatSelectionScreen(),

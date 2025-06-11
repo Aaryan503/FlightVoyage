@@ -1,113 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../providers/auth_provider.dart';
+import '../../providers/flight_history_provider.dart';
 import 'widgets/flight_history_card.dart';
 import 'widgets/flight_detail_modal.dart';
-import '../../models/flight_booking.dart';
 
-class FlightHistoryScreen extends ConsumerStatefulWidget {
+class FlightHistoryScreen extends ConsumerWidget {
   @override
-  ConsumerState<FlightHistoryScreen> createState() => _FlightHistoryScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(flightHistoryProvider);
+    final notifier = ref.read(flightHistoryProvider.notifier);
 
-class _FlightHistoryScreenState extends ConsumerState<FlightHistoryScreen> {
-  List<FlightBooking> bookings = [];
-  bool isLoading = true;
-  String? errorMessage;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadFlightHistory();
-  }
-
-  Future<void> _loadFlightHistory() async {
-    try {
-      final user = ref.read(currentUserProvider);
-      if (user == null) {
-        setState(() {
-          errorMessage = 'User not authenticated';
-          isLoading = false;
-        });
-        return;
-      }
-
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('bookings')
-          .orderBy('bookingTimestamp', descending: true)
-          .get();
-
-      List<FlightBooking> loadedBookings = [];
-
-      for (var doc in querySnapshot.docs) {
-        final bookingData = doc.data();
-        final flightsSnapshot = await doc.reference
-            .collection('flights')
-            .get();
-
-        Map<String, dynamic> outboundFlight = {};
-        Map<String, dynamic>? returnFlight;
-
-        for (var flightDoc in flightsSnapshot.docs) {
-          final flightData = flightDoc.data();
-          if (flightData['flightType'] == 'outbound') {
-            outboundFlight = flightData;
-          } else if (flightData['flightType'] == 'return') {
-            returnFlight = flightData;
-          }
-        }
-
-        if (outboundFlight.isNotEmpty) {
-          loadedBookings.add(FlightBooking.fromFirestore(
-            bookingId: doc.id,
-            bookingData: bookingData,
-            outboundFlight: outboundFlight,
-            returnFlight: returnFlight,
-          ));
-        }
-      }
-
-      setState(() {
-        bookings = loadedBookings;
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Failed to load flight history: $e';
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<void> _refreshHistory() async {
-    setState(() {
-      isLoading = true;
-      errorMessage = null;
-    });
-    await _loadFlightHistory();
-  }
-
-  void _showFlightDetails(FlightBooking booking) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => FlightDetailModal(booking: booking),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildBody(),
+      appBar: _buildAppBar(notifier),
+      body: _buildBody(context, state, notifier),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(FlightHistoryNotifier notifier) {
     return AppBar(
       title: Text(
         'Flight History',
@@ -122,7 +31,7 @@ class _FlightHistoryScreenState extends ConsumerState<FlightHistoryScreen> {
       actions: [
         IconButton(
           icon: Icon(Icons.refresh),
-          onPressed: _refreshHistory,
+          onPressed: notifier.refreshHistory,
           tooltip: 'Refresh',
         ),
       ],
@@ -136,8 +45,8 @@ class _FlightHistoryScreenState extends ConsumerState<FlightHistoryScreen> {
     );
   }
 
-  Widget _buildBody() {
-    if (isLoading) {
+  Widget _buildBody(BuildContext context, FlightHistoryState state, FlightHistoryNotifier notifier) {
+    if (state.isLoading) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -156,7 +65,7 @@ class _FlightHistoryScreenState extends ConsumerState<FlightHistoryScreen> {
       );
     }
 
-    if (errorMessage != null) {
+    if (state.errorMessage != null) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +88,7 @@ class _FlightHistoryScreenState extends ConsumerState<FlightHistoryScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
               child: Text(
-                errorMessage!,
+                state.errorMessage!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
@@ -189,7 +98,7 @@ class _FlightHistoryScreenState extends ConsumerState<FlightHistoryScreen> {
             ),
             SizedBox(height: 24),
             ElevatedButton.icon(
-              onPressed: _refreshHistory,
+              onPressed: notifier.refreshHistory,
               icon: Icon(Icons.refresh),
               label: Text('Try Again'),
               style: ElevatedButton.styleFrom(
@@ -202,7 +111,7 @@ class _FlightHistoryScreenState extends ConsumerState<FlightHistoryScreen> {
       );
     }
 
-    if (bookings.isEmpty) {
+    if (state.bookings.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -245,22 +154,31 @@ class _FlightHistoryScreenState extends ConsumerState<FlightHistoryScreen> {
     }
 
     return RefreshIndicator(
-      onRefresh: _refreshHistory,
+      onRefresh: notifier.refreshHistory,
       color: Colors.blue.shade600,
       child: ListView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: bookings.length,
+        itemCount: state.bookings.length,
         itemBuilder: (context, index) {
-          final booking = bookings[index];
+          final booking = state.bookings[index];
           return Padding(
             padding: EdgeInsets.only(bottom: 16),
             child: FlightHistoryCard(
               booking: booking,
-              onTap: () => _showFlightDetails(booking),
+              onTap: () => _showFlightDetails(context, booking),
             ),
           );
         },
       ),
+    );
+  }
+
+  void _showFlightDetails(BuildContext context, booking) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => FlightDetailModal(booking: booking),
     );
   }
 }
