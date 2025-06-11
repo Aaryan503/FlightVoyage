@@ -101,7 +101,7 @@ class AirportNotifier extends StateNotifier<AirportState> {
   }
 
   Future<double> _fetchTemperature(double lat, double lon) async {
-    const apiKey = '68aab4c5a4e8af4f22dbf6f46289e543';
+    const apiKey = API_KEY;
     const String baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
   
     try {
